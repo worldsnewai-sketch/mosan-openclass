@@ -123,7 +123,7 @@ const C=[
  {id:"ethics",l:"과학실",c:"전담(5학년)",s:"도덕",p:4,t:"6. 공동체를 정의롭게",d:"공동체에서 규칙의 필요성 알기"}
 ];
 const ROOM={g1:"r1",g2:"r2",g3:"r3",g4:"r4",g5:"r5",g6:"r6",health:"r6",raon:"raon",ethics:"sci"};
-const FLOOR={r1:"2층",r2:"2층",r3:"2층",r4:"2층",r5:"2층",r6:"2층",sci:"2층",raon:""};
+const FLOOR={r1:"2층",r2:"2층",r3:"2층",r4:"2층",r5:"2층",r6:"2층",sci:"2층",raon:"2층"};
 const ROOMS=[
  // 위쪽 건물
  {x:10,y:12,w:40,h:44,t:"담소"},{x:50,y:12,w:18,h:44,t:"창고"},{x:80,y:12,w:50,h:44,t:"시설\n관리실"},{x:140,y:12,w:56,h:30,t:"분리수거실"},
@@ -144,13 +144,13 @@ function label(r,fill,big){
   const ls=r.t.split("\n"),fs=big?16:(ls.length>1?11:12),lh=fs+2,y0=cy-(ls.length-1)*lh/2;
   return `<text x="${cx}" y="${y0}" font-size="${fs}" fill="${fill}" text-anchor="middle" dominant-baseline="middle">${ls.map((l,i)=>`<tspan x="${cx}" y="${y0+i*lh}">${l}</tspan>`).join("")}</text>`;
 }
-const FLOORS=`<rect x="2" y="70" width="38" height="72" rx="8" fill="#1e6fc2"/><text x="21" y="106" font-size="19" fill="#fff" text-anchor="middle" dominant-baseline="middle">2층</text>
+const FLOORS=`<rect x="2" y="6" width="38" height="136" rx="8" fill="#1e6fc2"/><text x="21" y="74" font-size="19" fill="#fff" text-anchor="middle" dominant-baseline="middle">2층</text>
   <rect x="2" y="186" width="38" height="70" rx="8" fill="#d9822b"/><text x="21" y="221" font-size="19" fill="#fff" text-anchor="middle" dominant-baseline="middle">1층</text>`;
 function mapSVG(focus){ // focus: class object or null (전체)
   const colorOf={};
   if(focus){colorOf[ROOM[focus.id]]=focus;} else {C.forEach(x=>{if(!colorOf[ROOM[x.id]])colorOf[ROOM[x.id]]=x;});}
   let g=`<rect x="0" y="0" width="400" height="300" rx="10" fill="#eef5e6"/>
-  <rect x="6" y="70" width="388" height="72" fill="#bcd3ea"/><rect x="6" y="186" width="388" height="70" fill="#f3d9a6"/>
+  <rect x="6" y="6" width="388" height="136" rx="6" fill="#d6e6f5"/><rect x="6" y="70" width="388" height="72" fill="#bcd3ea"/><rect x="6" y="186" width="388" height="70" fill="#f3d9a6"/>
   <rect x="190" y="186" width="24" height="70" fill="#f8e7c4"/>
   <rect x="10" y="80" width="18" height="54" fill="#fff" stroke="#8a7b6c"/><rect x="372" y="80" width="18" height="54" fill="#fff" stroke="#8a7b6c"/>
   ${[0,1,2,3,4,5].map(i=>`<line x1="10" x2="28" y1="${86+i*8}" y2="${86+i*8}" stroke="#8a7b6c"/><line x1="372" x2="390" y1="${86+i*8}" y2="${86+i*8}" stroke="#8a7b6c"/>`).join("")}
