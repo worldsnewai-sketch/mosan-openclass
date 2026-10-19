@@ -70,7 +70,8 @@ h1,h2,.pill,.cls{font-family:var(--display);font-weight:400}
 .mapbox{background:#fff}
 .map{display:block;width:100%;max-width:100%;height:auto}
 .map text{font-family:var(--display)}
-.mapnote{margin:10px 0 0;text-align:center;font-size:18px;font-family:var(--display)}
+.mapnote{margin:12px 0 0;text-align:center;font-size:22px;font-family:var(--display)}
+.floor{display:inline-block;color:#fff;border-radius:8px;padding:0 10px;margin-right:4px}.f2{background:#1e6fc2}.f1{background:#d9822b}
 .legend{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px}
 .legend a{font-family:var(--display);font-size:17px;text-decoration:none;background:var(--col);color:var(--ink,#fff);border:2px solid var(--border);border-radius:999px;padding:2px 12px}
 @media (prefers-reduced-motion:no-preference){.pin{animation:bob 1.2s ease-in-out infinite}}
@@ -143,17 +144,17 @@ function label(r,fill,big){
   const ls=r.t.split("\n"),fs=big?16:(ls.length>1?11:12),lh=fs+2,y0=cy-(ls.length-1)*lh/2;
   return `<text x="${cx}" y="${y0}" font-size="${fs}" fill="${fill}" text-anchor="middle" dominant-baseline="middle">${ls.map((l,i)=>`<tspan x="${cx}" y="${y0+i*lh}">${l}</tspan>`).join("")}</text>`;
 }
+const FLOORS=`<rect x="2" y="70" width="38" height="72" rx="8" fill="#1e6fc2"/><text x="21" y="106" font-size="19" fill="#fff" text-anchor="middle" dominant-baseline="middle">2층</text>
+  <rect x="2" y="186" width="38" height="70" rx="8" fill="#d9822b"/><text x="21" y="221" font-size="19" fill="#fff" text-anchor="middle" dominant-baseline="middle">1층</text>`;
 function mapSVG(focus){ // focus: class object or null (전체)
   const colorOf={};
   if(focus){colorOf[ROOM[focus.id]]=focus;} else {C.forEach(x=>{if(!colorOf[ROOM[x.id]])colorOf[ROOM[x.id]]=x;});}
   let g=`<rect x="0" y="0" width="400" height="300" rx="10" fill="#eef5e6"/>
-  <rect x="6" y="70" width="388" height="72" fill="#c9b8a6"/><rect x="6" y="186" width="388" height="70" fill="#c9b8a6"/>
-  <rect x="190" y="186" width="24" height="70" fill="#d9ccbd"/>
+  <rect x="6" y="70" width="388" height="72" fill="#bcd3ea"/><rect x="6" y="186" width="388" height="70" fill="#f3d9a6"/>
+  <rect x="190" y="186" width="24" height="70" fill="#f8e7c4"/>
   <rect x="10" y="80" width="18" height="54" fill="#fff" stroke="#8a7b6c"/><rect x="372" y="80" width="18" height="54" fill="#fff" stroke="#8a7b6c"/>
   ${[0,1,2,3,4,5].map(i=>`<line x1="10" x2="28" y1="${86+i*8}" y2="${86+i*8}" stroke="#8a7b6c"/><line x1="372" x2="390" y1="${86+i*8}" y2="${86+i*8}" stroke="#8a7b6c"/>`).join("")}
   <text x="19" y="146" font-size="9" fill="#5a4c3f" text-anchor="middle">계단</text><text x="381" y="146" font-size="9" fill="#5a4c3f" text-anchor="middle">계단</text>
-  <rect x="6" y="66" width="34" height="18" rx="9" fill="#fff" stroke="#2e2e2e"/><text x="23" y="76" font-size="11" fill="#2e2e2e" text-anchor="middle" dominant-baseline="middle">2층</text>
-  <rect x="6" y="182" width="34" height="18" rx="9" fill="#fff" stroke="#2e2e2e"/><text x="23" y="192" font-size="11" fill="#2e2e2e" text-anchor="middle" dominant-baseline="middle">1층</text>
   <rect x="10" y="204" width="28" height="42" fill="#fff" stroke="#8a7b6c"/>${label({x:10,y:204,w:28,h:42,t:"현관"},"#2e2e2e")}
   <rect x="364" y="204" width="26" height="42" fill="#fff" stroke="#8a7b6c"/>${label({x:364,y:204,w:26,h:42,t:"현관"},"#2e2e2e")}
   <rect x="40" y="266" width="320" height="26" rx="13" fill="#d8bf98"/><text x="200" y="279" font-size="12" fill="#5a4c3f" text-anchor="middle" dominant-baseline="middle">운동장 · 조례대</text>`;
@@ -168,8 +169,8 @@ function mapSVG(focus){ // focus: class object or null (전체)
     }
   });
   if(focus){ // 핀이 위로 넘칠 수 있게 여유
-    return `<svg class="map" viewBox="0 -30 400 330" role="img" aria-label="학교 안내도: ${esc(focus.l)} 위치">${g}${pin}</svg>`;}
-  return `<svg class="map" viewBox="0 0 400 300" role="img" aria-label="학교 안내도: 공개수업 교실 위치">${g}</svg>`;
+    return `<svg class="map" viewBox="0 -30 444 330" role="img" aria-label="학교 안내도: ${esc(focus.l)} 위치">${FLOORS}<g transform="translate(44 0)">${g}${pin}</g></svg>`;}
+  return `<svg class="map" viewBox="0 0 444 300" role="img" aria-label="학교 안내도: 공개수업 교실 위치">${FLOORS}<g transform="translate(44 0)">${g}</g></svg>`;
 }
 const COL={"1학년":["#e8453c","#ffe3e0"],"2학년":["#f08a1c","#ffecd6"],"3학년":["#f2c200","#fff6cc"],"4학년":["#2fa84f","#def5e3"],"5학년":["#1e88e5","#dcecfb"],"6학년":["#5b4bd6","#e7e4fb"],"보건(6학년)":["#e0457b","#fde1ec"],"라온반":["#129b9b","#d8f2f2"],"전담(5학년)":["#8e44ad","#f1e1f7"]};
 const sty=x=>`--col:${COL[x.c][0]};--tint:${COL[x.c][1]};${x.c==="3학년"?"--ink:#232323;":""}`;
@@ -191,7 +192,7 @@ function mapPage(){
   return `${TITLE}<div class="btns">${HOME_BTN}</div>
   <section class="box mapbox" aria-labelledby="m"><h2 class="pill" id="m">학교 안내도</h2>${mapSVG(null)}
   <p class="mapnote">색칠된 곳이 공개수업 교실이에요. 반을 누르면 안내가 열려요.</p>
-  <nav class="legend" aria-label="반별 위치">${C.map(o=>`<a style="${sty(o)}" href="#${o.id}">${esc(o.c)} · ${esc(o.l)}</a>`).join("")}</nav></section>
+  <nav class="legend" aria-label="반별 위치">${C.map(o=>`<a style="${sty(o)}" href="#${o.id}">${esc(o.c)} · ${FLOOR[ROOM[o.id]]?FLOOR[ROOM[o.id]]+" ":""}${esc(o.l)}</a>`).join("")}</nav></section>
   <div class="btns">${HOME_BTN}</div>`;
 }
 function cls(x){
@@ -203,7 +204,7 @@ function cls(x){
    <div><dt>일시</dt><dd>10월 20일 화요일 ${x.p}교시 (${P[x.p]})</dd></div>
    <div><dt>수업주제</dt><dd><b>${esc(x.t)}</b>${x.d?esc(x.d):""}</dd></div></dl></article>
   <section class="box mapbox" aria-labelledby="m"><h2 class="pill" id="m">교실 위치</h2>${mapSVG(x)}
-   <p class="mapnote">📍 ${FLOOR[ROOM[x.id]]?FLOOR[ROOM[x.id]]+" ":""}${esc(x.l)}</p></section>
+   <p class="mapnote">${FLOOR[ROOM[x.id]]?`<span class="floor f${FLOOR[ROOM[x.id]][0]}">${FLOOR[ROOM[x.id]]}</span> `:"📍 "}${esc(x.l)}</p></section>
   <div class="btns"><a class="btn light" href="#${prev.id}">‹ ${esc(prev.c)}</a><a class="btn light" href="#${next.id}">${esc(next.c)} ›</a></div>
   <nav class="others" aria-label="다른 반">${C.map(o=>`<a style="${sty(o)}" href="#${o.id}" aria-current="${o===x}">${esc(o.c)}</a>`).join("")}</nav>
   <div class="btns"><a class="btn wide light" href="#asks">관람 안내 · 작성해 주세요 ›</a>${HOME_BTN}</div>`;
